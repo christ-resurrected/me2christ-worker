@@ -9,7 +9,7 @@ export default {
       }
       const ip = request.headers.get("CF-Connecting-IP")
       const formData = await request.formData()
-      const tokenValidated = await validateToken(formData, ip)
+      const tokenValidated = await validateToken(formData, env, ip)
       if (!tokenValidated) {
         return new Response("Token validation failed", { status: 403 })
       }
@@ -43,7 +43,7 @@ async function forwardMessage(formData, env) {
   console.log('...done')
 }
 
-async function validateToken(formData, ip) {
+async function validateToken(formData, env, ip) {
   const token = formData.get("cf-turnstile-response")
   console.log(`validateToken: ${token}`)
 
