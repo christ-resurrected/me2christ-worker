@@ -59,5 +59,6 @@ async function validateToken(formData, env, ip) {
   });
 
   const outcome = await result.json()
+  console.log(`outcome: ${outcome}`)
   return outcome.success;
 }
