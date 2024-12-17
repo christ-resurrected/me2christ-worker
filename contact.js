@@ -31,11 +31,14 @@ export default {
         contentType: 'text/plain',
         data: contact_message,
       })
-
-      console.log(msg)
+      console.log(msg.asRaw())
 
       var em = new EmailMessage(env.EMAIL_WORKER_ADDRESS, env.EMAIL_FORWARD_ADDRESS, msg.asRaw())
+      console.log(em)
+
+      console.log('send...')
       await env.SEND_EMAIL.send(em)
+      console.log('...ok')
       return new Response("OK", { status: 200 });
 
     } catch (e) {
