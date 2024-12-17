@@ -4,28 +4,30 @@ import { createMimeMessage } from 'mimetext'
 export default {
   async fetch(request, env) {
     try {
-      if (request.method !== 'POST') {
-        return new Response('Method Not Allowed', { status: 405 })
+      function generateResponse(text, status) {
+        r = new Response(text, { status: status });
+        r.headers.set('Access-Control-Allow-Origin', '*')
+        return r
       }
+
+      if (request.method !== 'POST') return generateResponse('Method Not Allowed', 405)
       const ip = request.headers.get("CF-Connecting-IP")
       const formData = await request.formData()
       const tokenValidated = await validateToken(formData, env, ip)
-      if (!tokenValidated) {
-        return new Response("Token validation failed", { status: 403 })
-      }
+      if (!tokenValidated) return generateResponse('Token validation failed', 403)
       await forwardMessage(formData, env)
-      return new Response("OK", { status: 200 })
+      return generateResponse('OK', 200)
     } catch (e) {
       console.error(e);
-      return new Response("Error sending message", { status: 500 })
+      return generateResponse('Error sending message', 500)
     }
   }
 }
 
 async function forwardMessage(formData, env) {
-  const contact_name = formData.get("name")
-  const contact_email = formData.get("email")
-  const contact_message = formData.get("message")
+  const contact_name = formData.get('name')
+  const contact_email = formData.get('email')
+  const contact_message = formData.get('message')
   console.log(`forwardMessage: ${contact_name}, ${contact_email}, ${contact_message}`)
   // console.log(`env: ${env.EMAIL_WORKER_ADDRESS} ${env.EMAIL_FORWARD_ADDRESS}`)
 
