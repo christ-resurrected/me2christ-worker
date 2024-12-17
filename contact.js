@@ -23,8 +23,8 @@ export default {
       console.log(`env: ${env.EMAIL_WORKER_ADDRESS} ${env.EMAIL_FORWARD_ADDRESS}`);
 
       const msg = createMimeMessage()
-      // msg.setSender(env.EMAIL_WORKER_ADDRESS)
-      msg.setSender(contact_email)
+      msg.setSender(env.EMAIL_WORKER_ADDRESS)
+      // msg.setSender(contact_email)
       msg.setRecipient(env.EMAIL_FORWARD_ADDRESS)
       msg.setSubject('Worker POST')
       msg.addMessage({
@@ -34,8 +34,6 @@ export default {
       console.log(msg.asRaw())
 
       var em = new EmailMessage(env.EMAIL_WORKER_ADDRESS, env.EMAIL_FORWARD_ADDRESS, msg.asRaw())
-      console.log(em)
-
       console.log('send...')
       await env.SEND_EMAIL.send(em)
       console.log('...ok')
