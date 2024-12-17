@@ -5,7 +5,7 @@ export default {
   async fetch(request, env) {
     try {
       function generateResponse(text, status) {
-        r = new Response(text, { status: status });
+        var r = new Response(text, { status: status });
         r.headers.set('Access-Control-Allow-Origin', '*')
         return r
       }
@@ -61,6 +61,6 @@ async function validateToken(formData, env, ip) {
   });
 
   const outcome = await result.json()
-  console.log(`outcome: ${outcome}`)
+  console.log(outcome)
   return outcome.success;
 }
