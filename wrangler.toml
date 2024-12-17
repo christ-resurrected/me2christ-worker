@@ -12,3 +12,4 @@ name = "SEND_EMAIL"
 
 [vars]
 X = 'x'
+Y = 'y'
