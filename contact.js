@@ -44,12 +44,11 @@ async function forwardMessage(formData, env) {
 }
 
 async function validateToken(formData, ip) {
-  const TURNSTILE_SECRET_KEY = '1x0000000000000000000000000000000AA'
   const token = formData.get("cf-turnstile-response")
-  console.log(`token: ${token}`)
+  console.log(`validateToken: ${token}`)
 
   const body = new FormData()
-  body.append('secret', TURNSTILE_SECRET_KEY)
+  body.append('secret', env.TURNSTILE_SECRET_KEY)
   body.append('response', token)
   body.append('remoteip', ip)
 
