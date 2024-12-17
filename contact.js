@@ -24,15 +24,13 @@ export default {
 
       const msg = createMimeMessage()
       msg.setSender(env.EMAIL_WORKER_ADDRESS)
-      // msg.setSender(contact_email)
       msg.setRecipient(env.EMAIL_FORWARD_ADDRESS)
-      msg.setSubject('Worker POST')
+      msg.setSubject('Message received via me2christ.com contact page')
       msg.addMessage({
         contentType: 'text/plain',
-        data: contact_message,
+        data: `Name: ${contact_name}\nEmail: ${contact_email}\nMessage: ${contact_message}`
       })
       console.log(msg.asRaw())
-
       var em = new EmailMessage(env.EMAIL_WORKER_ADDRESS, env.EMAIL_FORWARD_ADDRESS, msg.asRaw())
       console.log('send...')
       await env.SEND_EMAIL.send(em)
