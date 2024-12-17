@@ -21,6 +21,7 @@ export default {
 
       console.log(`handleRequest: ${ip} ${name}, ${email}, ${message}`);
       console.log(`env: ${env.EMAIL_WORKER_ADDRESS} ${env.EMAIL_FORWARD_ADDRESS}`);
+      console.log(`vars: ${env.S} ${env.X}`);
 
       // const msg = createMimeMessage()
       // // msg.setSender(env.EMAIL_WORKER_ADDRESS)
