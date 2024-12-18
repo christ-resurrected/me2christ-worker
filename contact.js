@@ -20,6 +20,8 @@ export default {
       const tokenValidated = await validateToken(formData.get('cf-turnstile-response'), env, ip)
       if (!tokenValidated) return generateResponse('Token validation failed', 403)
       const contact = getContact(formData)
+      const validation = validateContact(contact)
+      if (validation != null) return generateResponse(validation, 422)
       await forwardMessage(contact, env)
       return generateResponse('OK', 200)
     } catch (e) {
@@ -51,6 +53,11 @@ function getContact(formData) {
   contact.email = formData.get('email')
   contact.message = formData.get('message')
   return contact
+}
+
+function validateContact(contact) {
+  if (contact.name.length < 2) return 'name must be at least 2 characters'
+  if (contact.message.length < 40) return 'message must be at least 40 characters'
 }
 
 async function validateToken(token, env, ip) {
