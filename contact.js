@@ -4,6 +4,7 @@ import { createMimeMessage } from 'mimetext'
 export default {
   async fetch(request, env) {
     try {
+      // text is shown in browser error field
       function generateResponse(text, status) {
         var r = new Response(text, { status: status });
         r.headers.set('Access-Control-Allow-Origin', '*')
