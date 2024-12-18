@@ -38,7 +38,6 @@ function getContact(formData) {
 async function forwardMessage(contact, env) {
   console.log(`forwardMessage: ${contact.name}, ${contact.email}, ${contact.message}`)
   // console.log(`env: ${ env.EMAIL_WORKER_ADDRESS } ${ env.EMAIL_FORWARD_ADDRESS }`)
-
   const msg = createMimeMessage()
   msg.setSender({ name: 'no-reply', addr: env.EMAIL_WORKER_ADDRESS })
   msg.setRecipient(env.EMAIL_FORWARD_ADDRESS)
