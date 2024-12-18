@@ -17,7 +17,7 @@ export default {
 
       const ip = request.headers.get('CF-Connecting-IP')
       const formData = await request.formData()
-      const tokenValidated = await validateToken(formData, env, ip)
+      const tokenValidated = await validateToken(formData.get('cf-turnstile-response'), env, ip)
       if (!tokenValidated) return generateResponse('Token validation failed', 403)
       await forwardMessage(formData, env)
       return generateResponse('OK', 200)
@@ -48,8 +48,7 @@ async function forwardMessage(formData, env) {
   console.log('...done')
 }
 
-async function validateToken(formData, env, ip) {
-  const token = formData.get('cf-turnstile-response')
+async function validateToken(token, env, ip) {
   console.log(`validateToken: ${token}`)
   const body = new FormData()
   body.append('secret', env.TURNSTILE_SECRET_KEY)
