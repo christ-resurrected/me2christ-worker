@@ -15,6 +15,10 @@ export default {
       if (request.method !== 'POST') return generateResponse(`Method ${request.method} not allowed`, 405)
       if (env.DISABLE_WORKER) return generateResponse('Service unavailable', 503)
 
+      const { pathname } = new URL(request.url)
+      const { success } = await env.RATE_LIMITER.limit({ key: pathname })
+      if (!success) return new generateResponse(`Rate limit exceeded for ${pathname}`, 429)
+
       const ip = request.headers.get('CF-Connecting-IP')
       const formData = await request.formData()
       const contact = getContact(formData)

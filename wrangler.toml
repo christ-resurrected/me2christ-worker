@@ -1,14 +1,23 @@
 name = 'me2christ-worker'
 main = 'contact.js'
 
-compatibility_date = "2024-10-11"
-compatibility_flags = [ "nodejs_compat" ]
+compatibility_date = '2024-10-11'
+compatibility_flags = [ 'nodejs_compat' ]
 
 [observability]
 enabled = true
 
 [[send_email]]
-name = "SEND_EMAIL"
+name = 'SEND_EMAIL'
 
 [vars]
 DISABLE_WORKER = false
+
+# The rate limiting API is in open beta.
+[[unsafe.bindings]]
+name = 'RATE_LIMITER'
+type = 'ratelimit'
+namespace_id = '1001' # An identifier you define, that is unique to your Cloudflare account. Must be an integer.
+# limit: the number of tokens allowed within a given period in a single Cloudflare location
+# period: the duration of the period, in seconds. Must be either 10 or 60
+simple = { limit = 2, period = 10 }
