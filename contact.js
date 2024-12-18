@@ -15,17 +15,23 @@ export default {
       if (request.method !== 'POST') return generateResponse(`Method ${request.method} not allowed`, 405)
       if (env.DISABLE_WORKER) return generateResponse('Service unavailable', 503)
 
+      // rate limiter
       const { pathname } = new URL(request.url)
       const { success } = await env.RATE_LIMITER.limit({ key: pathname })
       if (!success) return new generateResponse(`Rate limit exceeded for ${pathname}`, 429)
 
-      const ip = request.headers.get('CF-Connecting-IP')
+      // validate form fields
       const formData = await request.formData()
       const contact = getContact(formData)
       const validation = validateContact(contact)
       if (validation != null) return generateResponse(validation, 422)
+
+      // validate turnstile token
+      const ip = request.headers.get('CF-Connecting-IP')
       const tokenValidated = await validateToken(formData.get('cf-turnstile-response'), env, ip)
       if (!tokenValidated) return generateResponse('Token validation failed', 403)
+
+      // send email
       await forwardMessage(contact, env)
       return generateResponse('OK', 200)
     } catch (e) {
