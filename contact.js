@@ -19,7 +19,7 @@ export default {
       const formData = await request.formData()
       const tokenValidated = await validateToken(formData.get('cf-turnstile-response'), env, ip)
       if (!tokenValidated) return generateResponse('Token validation failed', 403)
-      await forwardMessage(formData, env)
+      await forwardMessage(getContact(formData), env)
       return generateResponse('OK', 200)
     } catch (e) {
       return generateResponse('Error sending message', 500)
@@ -27,11 +27,16 @@ export default {
   }
 }
 
-async function forwardMessage(formData, env) {
-  const contact_name = formData.get('name')
-  const contact_email = formData.get('email')
-  const contact_message = formData.get('message')
-  console.log(`forwardMessage: ${contact_name}, ${contact_email}, ${contact_message}`)
+function getContact(formData) {
+  const contact = {}
+  contact.name = formData.get('name')
+  contact.email = formData.get('email')
+  contact.message = formData.get('message')
+  return contact
+}
+
+async function forwardMessage(contact, env) {
+  console.log(`forwardMessage: ${contact.name}, ${contact.email}, ${contact.message}`)
   // console.log(`env: ${ env.EMAIL_WORKER_ADDRESS } ${ env.EMAIL_FORWARD_ADDRESS }`)
 
   const msg = createMimeMessage()
@@ -40,7 +45,7 @@ async function forwardMessage(formData, env) {
   msg.setSubject('Message received from me2christ.com contact page')
   msg.addMessage({
     contentType: 'text/plain',
-    data: `Name: ${contact_name}\nEmail: ${contact_email}\n\n${contact_message}`
+    data: `Name: ${contact.name}\nEmail: ${contact.email}\n\n${contact.message}`
   })
   var m = new EmailMessage(env.EMAIL_WORKER_ADDRESS, env.EMAIL_FORWARD_ADDRESS, msg.asRaw())
   console.log('send...')
