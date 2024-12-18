@@ -21,7 +21,7 @@ export default {
 
       // validate form fields
       const formData = await request.formData()
-      const contact = getContact(formData)
+      const contact = { name: formData.get('name'), email: formData.get('email'), message: formData.get('message') }
       const validation = validateContact(contact)
       if (validation != null) return generateResponse(validation, 422)
 
@@ -54,14 +54,6 @@ async function forwardMessage(contact, env) {
   console.log('send...')
   await env.SEND_EMAIL.send(m)
   console.log('...done')
-}
-
-function getContact(formData) {
-  const contact = {}
-  contact.name = formData.get('name')
-  contact.email = formData.get('email')
-  contact.message = formData.get('message')
-  return contact
 }
 
 function validateContact(contact) {
