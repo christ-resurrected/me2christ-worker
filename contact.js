@@ -16,9 +16,8 @@ export default {
       if (env.DISABLE_WORKER) return generateResponse('Service unavailable', 503)
 
       // rate limiter
-      const { pathname } = new URL(request.url)
-      const { success } = await env.RATE_LIMITER.limit({ key: pathname })
-      if (!success) return new generateResponse(`Rate limit exceeded for ${pathname}`, 429)
+      const { success } = await env.RATE_LIMITER.limit({ key: 'key' })
+      if (!success) return new generateResponse(`Rate limit exceeded. Please retry after 60 seconds.}`, 429)
 
       // validate form fields
       const formData = await request.formData()
