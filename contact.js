@@ -15,7 +15,7 @@ export default {
       if (request.method !== 'POST') return generateResponse(`Method ${request.method} not allowed`, 405)
       if (env.DISABLE_WORKER) return generateResponse('Service unavailable', 503)
 
-      const ip = request.headers.get("CF-Connecting-IP")
+      const ip = request.headers.get('CF-Connecting-IP')
       const formData = await request.formData()
       const tokenValidated = await validateToken(formData, env, ip)
       if (!tokenValidated) return generateResponse('Token validation failed', 403)
@@ -49,7 +49,7 @@ async function forwardMessage(formData, env) {
 }
 
 async function validateToken(formData, env, ip) {
-  const token = formData.get("cf-turnstile-response")
+  const token = formData.get('cf-turnstile-response')
   console.log(`validateToken: ${token}`)
   const body = new FormData()
   body.append('secret', env.TURNSTILE_SECRET_KEY)
