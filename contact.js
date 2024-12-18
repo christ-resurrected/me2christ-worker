@@ -17,11 +17,11 @@ export default {
 
       const ip = request.headers.get('CF-Connecting-IP')
       const formData = await request.formData()
-      const tokenValidated = await validateToken(formData.get('cf-turnstile-response'), env, ip)
-      if (!tokenValidated) return generateResponse('Token validation failed', 403)
       const contact = getContact(formData)
       const validation = validateContact(contact)
       if (validation != null) return generateResponse(validation, 422)
+      const tokenValidated = await validateToken(formData.get('cf-turnstile-response'), env, ip)
+      if (!tokenValidated) return generateResponse('Token validation failed', 403)
       await forwardMessage(contact, env)
       return generateResponse('OK', 200)
     } catch (e) {
@@ -56,8 +56,13 @@ function getContact(formData) {
 }
 
 function validateContact(contact) {
-  if (contact.name.length < 2) return 'name must be at least 2 characters'
-  if (contact.message.length < 40) return 'message must be at least 40 characters'
+  if (contact.name.length < 2) return 'Name must be at least 2 characters'
+  if (contact.name.length > 40) return 'Name must be at most 40 characters'
+  const rgxEmail = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  if (!rgxEmail.test(contact.email)) return 'Email must be a valid email address'
+  if (contact.email.length > 40) return 'Email must be at most 40 characters'
+  if (contact.message.length < 20) return 'Message must be at least 20 characters'
+  if (contact.message.length > 1000) return 'Message must be at most 1,000 characters'
 }
 
 async function validateToken(token, env, ip) {
