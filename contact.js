@@ -17,7 +17,7 @@ export default {
 
       // rate limiter
       const { success } = await env.RATE_LIMITER.limit({ key: 'key' })
-      if (!success) return new generateResponse(`Rate limit exceeded. Please retry after 60 seconds.}`, 429)
+      if (!success) return new generateResponse(`Too many requests. Please retry after 60 seconds.`, 429)
 
       // validate form fields
       const formData = await request.formData()
