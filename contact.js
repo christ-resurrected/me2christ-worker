@@ -6,6 +6,7 @@ export default {
     try {
       // text is shown in browser error field
       function generateResponse(text, status) {
+        console.error(`generateResponse: ${text} ${status}`);
         var r = new Response(text, { status: status });
         r.headers.set('Access-Control-Allow-Origin', '*')
         return r
@@ -21,7 +22,6 @@ export default {
       await forwardMessage(formData, env)
       return generateResponse('OK', 200)
     } catch (e) {
-      console.error(e);
       return generateResponse('Error sending message', 500)
     }
   }
@@ -51,19 +51,11 @@ async function forwardMessage(formData, env) {
 async function validateToken(formData, env, ip) {
   const token = formData.get("cf-turnstile-response")
   console.log(`validateToken: ${token}`)
-
   const body = new FormData()
   body.append('secret', env.TURNSTILE_SECRET_KEY)
   body.append('response', token)
   body.append('remoteip', ip)
-
-  const url = 'https://challenges.cloudflare.com/turnstile/v0/siteverify'
-  const result = await fetch(url, {
-    body: body,
-    method: 'POST',
-  });
-
-  const outcome = await result.json()
-  console.log(outcome)
-  return outcome.success;
+  const URL = 'https://challenges.cloudflare.com/turnstile/v0/siteverify'
+  const result = await fetch(URL, { body: body, method: 'POST', });
+  return (await result.json()).success
 }
