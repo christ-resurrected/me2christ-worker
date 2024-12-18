@@ -51,9 +51,7 @@ async function forwardMessage(contact, env) {
     data: `Name: ${contact.name}\nEmail: ${contact.email}\n\n${contact.message}`
   })
   var m = new EmailMessage(env.EMAIL_WORKER_ADDRESS, env.EMAIL_FORWARD_ADDRESS, msg.asRaw())
-  console.log('send...')
   await env.SEND_EMAIL.send(m)
-  console.log('...done')
 }
 
 function validateContact(contact) {
