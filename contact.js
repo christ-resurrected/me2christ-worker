@@ -19,20 +19,13 @@ export default {
       const formData = await request.formData()
       const tokenValidated = await validateToken(formData.get('cf-turnstile-response'), env, ip)
       if (!tokenValidated) return generateResponse('Token validation failed', 403)
-      await forwardMessage(getContact(formData), env)
+      const contact = getContact(formData)
+      await forwardMessage(contact, env)
       return generateResponse('OK', 200)
     } catch (e) {
       return generateResponse('Error sending message', 500)
     }
   }
-}
-
-function getContact(formData) {
-  const contact = {}
-  contact.name = formData.get('name')
-  contact.email = formData.get('email')
-  contact.message = formData.get('message')
-  return contact
 }
 
 async function forwardMessage(contact, env) {
@@ -50,6 +43,14 @@ async function forwardMessage(contact, env) {
   console.log('send...')
   await env.SEND_EMAIL.send(m)
   console.log('...done')
+}
+
+function getContact(formData) {
+  const contact = {}
+  contact.name = formData.get('name')
+  contact.email = formData.get('email')
+  contact.message = formData.get('message')
+  return contact
 }
 
 async function validateToken(token, env, ip) {
