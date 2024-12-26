@@ -55,13 +55,15 @@ async function forwardMessage(contact, env) {
 }
 
 function validateContact(contact) {
-  if (contact.name.length < 2) return 'Name must be at least 2 characters'
-  if (contact.name.length > 40) return 'Name must be 40 characters or less'
+  function errMin(id, n) { return `${id} must be at least ${n} characters` }
+  function errMax(id, n) { return `${id} must be ${n} characters or less` }
+  if (contact.name.length < 2) return errMin('Name', 2)
+  if (contact.name.length > 40) return errMax('Name', 40)
   const rgxEmail = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   if (!rgxEmail.test(contact.email)) return 'Email must be a valid email address'
-  if (contact.email.length > 40) return 'Email must be 40 characters or less'
-  if (contact.message.length < 20) return 'Message must be at least 20 characters'
-  if (contact.message.length > 1000) return 'Message must be 1,000 characters or less'
+  if (contact.email.length > 40) return errMax('Email', 40)
+  if (contact.message.length < 20) return errMin('Message', 20)
+  if (contact.message.length > 1000) return errMax('Message', 1000)
 }
 
 async function validateToken(token, env, ip) {
