@@ -62,8 +62,8 @@ function validateContact(contact) {
   const rgxEmail = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   if (!rgxEmail.test(contact.email)) return 'Email must be a valid email address'
   if (contact.email.length > 40) return errMax('Email', 40)
-  if (contact.message.length < 20) return errMin('Message', 20)
-  if (contact.message.length > 1000) return errMax('Message', 1000)
+  if (contact.message.length < 40) return errMin('Message', 40)
+  if (contact.message.length > 800) return errMax('Message', 800)
 }
 
 async function validateToken(token, env, ip) {
