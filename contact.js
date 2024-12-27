@@ -59,7 +59,7 @@ function validateContact(contact) {
   function errMax(id, n) { return `${id} must be ${n} characters or less` }
   if (contact.name.length < 2) return errMin('Name', 2)
   if (contact.name.length > 40) return errMax('Name', 40)
-  const rgxEmail = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const rgxEmail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/ // basic validation from MDN, should match browser's
   if (!rgxEmail.test(contact.email)) return 'Email must be a valid email address'
   if (contact.email.length > 40) return errMax('Email', 40)
   if (contact.message.length < 40) return errMin('Message', 40)
