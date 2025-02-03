@@ -1,5 +1,5 @@
 import { EmailMessage } from 'cloudflare:email'
-import { createMimeMessage } from 'mimetext'
+import { createMimeMessage } from 'mimetext' // CF worker build config must have "npm install mimetext"
 
 export default {
   async fetch(request, env) {
