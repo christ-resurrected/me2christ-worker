@@ -11,6 +11,7 @@ export default {
     }
 
     try {
+      console.log('a')
       if (request.method === 'OPTIONS') { // allow CORS
         console.log('return CORS preflight OPTIONS response')
         return new Response('OK', {
