@@ -3,7 +3,6 @@ import { createMimeMessage } from 'mimetext'
 
 export default {
   async fetch(request, env) {
-    console.log('a')
     function generateResponse(text, status) {
       console.error(`generateResponse: ${status}, ${text}`);
       var r = new Response(text, { status: status }); // text is shown in browser error field
@@ -12,7 +11,6 @@ export default {
     }
 
     try {
-      console.log('b')
       if (request.method === 'OPTIONS') { // allow CORS
         console.log('return CORS preflight OPTIONS response')
         return new Response('OK', {
@@ -25,7 +23,6 @@ export default {
         });
       }
 
-      console.log('c')
       if (request.method !== 'POST') return generateResponse(`Method ${request.method} not allowed`, 405)
       if (env.DISABLE_WORKER) return generateResponse('Service unavailable', 503)
 
@@ -48,8 +45,8 @@ export default {
       await forwardMessage(contact, env)
       return generateResponse('OK', 200)
     } catch (e) {
-      console.log('e')
-      return generateResponse('Error sending message', 500)
+      console.log(e)
+      return generateResponse('An error occurred while sending the message, sorry!', 500)
     }
   }
 }
