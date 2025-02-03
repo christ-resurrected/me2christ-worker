@@ -1,7 +1,7 @@
 name = 'me2christ-worker'
 main = 'contact.js'
 
-routes = [{ pattern = "worker.me2christ.com", custom_domain = true }]
+route = { pattern = 'worker.me2christ.com', custom_domain = true }
 
 compatibility_date = '2024-10-11'
 compatibility_flags = [ 'nodejs_compat' ]
@@ -26,5 +26,5 @@ namespace_id = '1001' # An identifier you define, that is unique to your Cloudfl
 simple = { limit = 1, period = 60 }
 
 [env.dev]
-routes = [{ pattern = "dev.worker.me2christ.com", custom_domain = true }]
+route = { pattern = 'dev.worker.me2christ.com', custom_domain = true }
 vars = { TURNSTILE_SECRET_KEY = '1x0000000000000000000000000000000AA' }
