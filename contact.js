@@ -5,7 +5,7 @@ export default {
   async fetch(request, env) {
     try {
       function generateResponse(text, status) {
-        console.error(`generateResponse: ${text} ${status}`);
+        console.error(`generateResponse: ${status}, ${text}`);
         var r = new Response(text, { status: status }); // text is shown in browser error field
         r.headers.set('Access-Control-Allow-Origin', '*')
         return r
