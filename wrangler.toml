@@ -26,8 +26,8 @@ type = 'ratelimit'
 [env.dev]
 custom_domain = true
 route = 'dev.worker.me2christ.com'
-vars = {
-  EMAIL_FORWARD_ADDRESS = 'me2christ.andrew@gmail.com',
-  EMAIL_WORKER_ADDRESS = 'andrew@me2christ.com',
-  TURNSTILE_SECRET_KEY = '1x0000000000000000000000000000000AA'
-}
+
+[env.dev.vars]
+EMAIL_FORWARD_ADDRESS = 'me2christ.andrew@gmail.com'
+EMAIL_WORKER_ADDRESS = 'andrew@me2christ.com'
+TURNSTILE_SECRET_KEY = '1x0000000000000000000000000000000AA'
