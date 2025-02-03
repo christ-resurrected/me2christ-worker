@@ -46,7 +46,7 @@ export default {
       return generateResponse('OK', 200)
     } catch (e) {
       console.log(e)
-      return generateResponse('An error occurred while sending the message, sorry!', 500)
+      return generateResponse('An internal server error occurred while sending the message, sorry!', 500)
     }
   }
 }
