@@ -10,7 +10,6 @@ enabled = true
 
 #------- DEVELOPMENT -------
 [env.dev]
-route = { custom_domain = true, pattern = 'dev.worker.me2christ.com' }
 send_email = [{ name = 'SEND_EMAIL' }]
 
 [env.dev.vars] # don't put email addresses here
@@ -22,8 +21,11 @@ TURNSTILE_SECRET_KEY = '1x0000000000000000000000000000000AA'
 route = 'worker.me2christ.com'
 send_email = [{ name = 'SEND_EMAIL' }]
 
+[env.prod.vars] # don't put email addresses here
+DISABLE_WORKER = false
+
 # The rate limiting API is in open beta.
-[[unsafe.bindings]]
+[[env.prod.unsafe.bindings]]
 name = 'RATE_LIMITER'
 namespace_id = '1001' # An identifier you define, that is unique to your Cloudflare account. Must be an integer.
 # limit: the number of tokens allowed within a given period in a single Cloudflare location
@@ -31,6 +33,3 @@ namespace_id = '1001' # An identifier you define, that is unique to your Cloudfl
 # NOTE: distibuted over many servers
 simple = { limit = 1, period = 60 }
 type = 'ratelimit'
-
-[env.prod.vars] # don't put email addresses here
-DISABLE_WORKER = false
