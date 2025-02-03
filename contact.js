@@ -4,6 +4,16 @@ import { createMimeMessage } from 'mimetext'
 export default {
   async fetch(request, env) {
     try {
+      if (request.method === 'OPTIONS') { // allow CORS
+        return new Response('OK', {
+          headers: {
+            'Access-Control-Allow-Headers': '*', // What headers are allowed. * is wildcard.
+            'Access-Control-Allow-Methods': 'POST', // Allowed methods. Others could be GET, PUT, DELETE etc.
+            'Access-Control-Allow-Origin': '*', // This is URLs that are allowed to access the server.
+          }
+        });
+      }
+
       function generateResponse(text, status) {
         console.error(`generateResponse: ${text} ${status}`);
         var r = new Response(text, { status: status }); // text is shown in browser error field
