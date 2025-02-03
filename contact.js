@@ -4,12 +4,15 @@ import { createMimeMessage } from 'mimetext'
 export default {
   async fetch(request, env) {
     try {
+      console.log('a')
+
       function generateResponse(text, status) {
         console.error(`generateResponse: ${status}, ${text}`);
         var r = new Response(text, { status: status }); // text is shown in browser error field
         r.headers.set('Access-Control-Allow-Origin', '*')
         return r
       }
+      console.log('b')
 
       if (request.method === 'OPTIONS') { // allow CORS
         console.log('return CORS preflight OPTIONS response')
@@ -45,6 +48,7 @@ export default {
       await forwardMessage(contact, env)
       return generateResponse('OK', 200)
     } catch (e) {
+      console.log('e')
       return generateResponse('Error sending message', 500)
     }
   }
