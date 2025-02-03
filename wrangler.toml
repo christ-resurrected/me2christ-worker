@@ -11,6 +11,7 @@ enabled = true
 # [vars]
 # DISABLE_WORKER = false
 
+#------- DEVELOPMENT -------
 [env.dev]
 route = 'dev.worker.me2christ.com'
 send_email = [{ name = 'SEND_EMAIL' }]
@@ -19,12 +20,10 @@ send_email = [{ name = 'SEND_EMAIL' }]
 DISABLE_WORKER = false
 TURNSTILE_SECRET_KEY = '1x0000000000000000000000000000000AA'
 
+#------- PRODUCTION -------
 [env.prod]
 route = 'worker.me2christ.com'
 send_email = [{ name = 'SEND_EMAIL' }]
-
-[env.prod.vars] # don't put email addresses here
-DISABLE_WORKER = false
 
 # The rate limiting API is in open beta.
 [[unsafe.bindings]]
@@ -35,3 +34,6 @@ namespace_id = '1001' # An identifier you define, that is unique to your Cloudfl
 # NOTE: distibuted over many servers
 simple = { limit = 1, period = 60 }
 type = 'ratelimit'
+
+[env.prod.vars] # don't put email addresses here
+DISABLE_WORKER = false
