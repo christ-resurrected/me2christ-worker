@@ -25,5 +25,6 @@ namespace_id = '1001' # An identifier you define, that is unique to your Cloudfl
 # NOTE: distibuted over many servers
 simple = { limit = 1, period = 60 }
 
-# [env.dev]
-# routes = [{ pattern = "dev.worker.me2christ.com", custom_domain = true }]
+[env.dev]
+routes = [{ pattern = "dev.worker.me2christ.com", custom_domain = true }]
+vars = { TURNSTILE_SECRET_KEY = '1x0000000000000000000000000000000AA' }
