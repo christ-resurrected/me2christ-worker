@@ -3,7 +3,7 @@ compatibility_flags = [ 'nodejs_compat' ]
 main = 'contact.js'
 name = 'me2christ-worker'
 route = 'worker.me2christ.com'
-send_email = { name = 'SEND_EMAIL' }
+send_email = [{ name = 'SEND_EMAIL' }]
 
 [observability]
 enabled = true
@@ -23,7 +23,7 @@ type = 'ratelimit'
 
 [env.dev]
 # custom_domain = true
-send_email = { name = 'SEND_EMAIL' }
+send_email = [{ name = 'SEND_EMAIL' }]
 route = 'dev.worker.me2christ.com'
 
 [env.dev.vars] # don't put email addresses here
