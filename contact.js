@@ -44,6 +44,7 @@ export default {
 
       // send email
       await forwardMessage(contact, env)
+      console.log('a')
       return generateResponse('<p>Thank you.</p>Your message has been successfully sent.<p>', 200)
     } catch (e) {
       console.log(e)
