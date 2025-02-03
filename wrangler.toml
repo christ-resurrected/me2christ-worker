@@ -22,9 +22,8 @@ simple = { limit = 1, period = 60 }
 type = 'ratelimit'
 
 [env.dev]
-# custom_domain = true
-send_email = [{ name = 'SEND_EMAIL' }]
 route = 'dev.worker.me2christ.com'
+send_email = [{ name = 'SEND_EMAIL' }]
 
 [env.dev.vars] # don't put email addresses here
 DISABLE_WORKER = false
