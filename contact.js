@@ -9,7 +9,7 @@ export default {
         return new Response('OK', {
           headers: {
             'Access-Control-Allow-Headers': '*', // What headers are allowed. * is wildcard.
-            'Access-Control-Allow-Methods': 'POST', // Allowed methods. Others could be GET, PUT, DELETE etc.
+            'Access-Control-Allow-Methods': 'HEAD,POST,OPTIONS', // Allowed methods. Others could be GET, PUT, DELETE etc.
             'Access-Control-Allow-Origin': '*', // This is URLs that are allowed to access the server.
           },
           status: 204
