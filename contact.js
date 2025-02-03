@@ -5,6 +5,7 @@ export default {
   async fetch(request, env) {
     try {
       if (request.method === 'OPTIONS') { // allow CORS
+        console.log('allow CORS')
         return new Response('OK', {
           headers: {
             'Access-Control-Allow-Headers': '*', // What headers are allowed. * is wildcard.
