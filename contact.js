@@ -4,6 +4,13 @@ import { createMimeMessage } from 'mimetext'
 export default {
   async fetch(request, env) {
     try {
+      function generateResponse(text, status) {
+        console.error(`generateResponse: ${text} ${status}`);
+        var r = new Response(text, { status: status }); // text is shown in browser error field
+        r.headers.set('Access-Control-Allow-Origin', '*')
+        return r
+      }
+
       if (request.method === 'OPTIONS') { // allow CORS
         console.log('return CORS preflight OPTIONS response')
         return new Response('OK', {
@@ -14,13 +21,6 @@ export default {
           },
           status: 204
         });
-      }
-
-      function generateResponse(text, status) {
-        console.error(`generateResponse: ${text} ${status}`);
-        var r = new Response(text, { status: status }); // text is shown in browser error field
-        r.headers.set('Access-Control-Allow-Origin', '*')
-        return r
       }
 
       if (request.method !== 'POST') return generateResponse(`Method ${request.method} not allowed`, 405)
