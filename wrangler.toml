@@ -1,10 +1,8 @@
-name = 'me2christ-worker'
-main = 'contact.js'
-
-route = { pattern = 'worker.me2christ.com', custom_domain = true }
-
 compatibility_date = '2024-10-11'
 compatibility_flags = [ 'nodejs_compat' ]
+main = 'contact.js'
+name = 'me2christ-worker'
+route = { pattern = 'worker.me2christ.com', custom_domain = true }
 
 [observability]
 enabled = true
@@ -18,12 +16,12 @@ DISABLE_WORKER = false
 # The rate limiting API is in open beta.
 [[unsafe.bindings]]
 name = 'RATE_LIMITER'
-type = 'ratelimit'
 namespace_id = '1001' # An identifier you define, that is unique to your Cloudflare account. Must be an integer.
 # limit: the number of tokens allowed within a given period in a single Cloudflare location
 # period: the duration of the period, in seconds. Must be either 10 or 60
 # NOTE: distibuted over many servers
 simple = { limit = 1, period = 60 }
+type = 'ratelimit'
 
 [env.dev]
 route = { pattern = 'dev.worker.me2christ.com', custom_domain = true }
