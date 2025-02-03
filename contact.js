@@ -26,9 +26,11 @@ export default {
       if (request.method !== 'POST') return generateResponse(`Method ${request.method} not allowed`, 405)
       if (env.DISABLE_WORKER) return generateResponse('Service unavailable', 503)
 
-      // rate limiter
-      const { success } = await env.RATE_LIMITER.limit({ key: 'key' })
-      if (!success) return generateResponse(`Too many requests. Please try again later.`, 429)
+      // rate limiter (optional)
+      if (env.RATE_LIMITER) {
+        const { success } = await env.RATE_LIMITER.limit({ key: 'key' })
+        if (!success) return generateResponse(`Too many requests. Please try again later.`, 429)
+      }
 
       // validate form fields
       const formData = await request.formData()
