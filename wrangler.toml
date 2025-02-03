@@ -10,7 +10,7 @@ enabled = true
 
 #------- DEVELOPMENT -------
 [env.dev]
-route = 'dev.worker.me2christ.com'
+route = { custom_domain = true, pattern = 'dev.worker.me2christ.com' }
 send_email = [{ name = 'SEND_EMAIL' }]
 
 [env.dev.vars] # don't put email addresses here
