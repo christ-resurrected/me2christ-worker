@@ -8,9 +8,6 @@ name = 'me2christ-worker'
 [observability]
 enabled = true
 
-# [vars]
-# DISABLE_WORKER = false
-
 #------- DEVELOPMENT -------
 [env.dev]
 route = 'dev.worker.me2christ.com'
