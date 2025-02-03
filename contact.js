@@ -5,15 +5,14 @@ export default {
   async fetch(request, env) {
     try {
       console.log('a')
-
       function generateResponse(text, status) {
         console.error(`generateResponse: ${status}, ${text}`);
         var r = new Response(text, { status: status }); // text is shown in browser error field
         r.headers.set('Access-Control-Allow-Origin', '*')
         return r
       }
-      console.log('b')
 
+      console.log('b')
       if (request.method === 'OPTIONS') { // allow CORS
         console.log('return CORS preflight OPTIONS response')
         return new Response('OK', {
@@ -26,6 +25,7 @@ export default {
         });
       }
 
+      console.log('c')
       if (request.method !== 'POST') return generateResponse(`Method ${request.method} not allowed`, 405)
       if (env.DISABLE_WORKER) return generateResponse('Service unavailable', 503)
 
