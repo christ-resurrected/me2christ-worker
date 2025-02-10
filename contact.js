@@ -45,7 +45,7 @@ export default {
 
       // send email
       await forwardMessage(contact, env)
-      return generateResponse('<p>Thank you.</p>Your message has been successfully sent.<p>', 200)
+      return generateResponse('<p>Your message has been successfully sent.</p><p>Thank you.</p>', 200)
     } catch (e) {
       console.log(e)
       return generateResponse('An internal server error occurred while sending the message, sorry!', 500)
