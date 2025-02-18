@@ -48,7 +48,7 @@ export default {
       return generateResponse('<p>Your message has been successfully sent.</p><p>Thank you.</p>', 200)
     } catch (e) {
       console.log(e)
-      return generateResponse('An internal server error occurred while sending the message, sorry!', 500)
+      return generateResponse('An internal server error occurred while sending the message, sorry! Please try again later.', 500)
     }
   }
 }
