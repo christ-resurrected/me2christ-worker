@@ -34,8 +34,8 @@ export default {
 
       // validate form fields
       const formData = await request.formData()
-      const contact = { name: formData.get('name'), email: formData.get('email'), message: formData.get('message') }
-      const validation = validateContact(contact)
+      const payload = { name: formData.get('name'), email: formData.get('email'), message: formData.get('message') }
+      const validation = validatePayload(payload)
       if (validation != null) return generateResponse(validation, 422)
 
       // validate turnstile token
@@ -44,7 +44,7 @@ export default {
       if (!tokenValidated) return generateResponse('Token validation failed', 403)
 
       // send email
-      await forwardMessage(contact, env)
+      await forwardMessage(payload, env)
       return generateResponse('<p>Your message has been successfully sent.</p><p>Thank you.</p>', 200)
     } catch (e) {
       console.log(e)
@@ -53,31 +53,31 @@ export default {
   }
 }
 
-async function forwardMessage(contact, env) {
-  console.log(`forwardMessage: ${contact.name}, ${contact.email}, ${contact.message}`)
+async function forwardMessage(payload, env) {
+  console.log(`forwardMessage: ${payload.name}, ${payload.email}, ${payload.message}`)
   // console.log(`env: ${ env.EMAIL_WORKER_ADDRESS } ${ env.EMAIL_FORWARD_ADDRESS }`)
   const msg = createMimeMessage()
   msg.setSender({ name: 'no-reply', addr: env.EMAIL_WORKER_ADDRESS })
   msg.setRecipient(env.EMAIL_FORWARD_ADDRESS)
-  msg.setSubject('Message received from me2christ.com contact page')
+  msg.setSubject('Message received from me2christ.com payload page')
   msg.addMessage({
     contentType: 'text/plain',
-    data: `Name: ${contact.name}\nEmail: ${contact.email}\n\n${contact.message}`
+    data: `Name: ${payload.name}\nEmail: ${payload.email}\n\n${payload.message}`
   })
   var m = new EmailMessage(env.EMAIL_WORKER_ADDRESS, env.EMAIL_FORWARD_ADDRESS, msg.asRaw())
   await env.SEND_EMAIL.send(m)
 }
 
-function validateContact(contact) {
+function validatePayload(payload) {
   function errMin(id, n) { return `${id} must be at least ${n} characters` }
   function errMax(id, n) { return `${id} must be ${n} characters or less` }
-  if (contact.name.length < 2) return errMin('Name', 2)
-  if (contact.name.length > 40) return errMax('Name', 40)
+  if (payload.name.length < 2) return errMin('Name', 2)
+  if (payload.name.length > 40) return errMax('Name', 40)
   const rgxEmail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/ // basic validation from MDN, should match browser's
-  if (!rgxEmail.test(contact.email)) return 'Email must be a valid email address'
-  if (contact.email.length > 40) return errMax('Email', 40)
-  if (contact.message.length < 40) return errMin('Message', 40)
-  if (contact.message.length > 800) return errMax('Message', 800)
+  if (!rgxEmail.test(payload.email)) return 'Email must be a valid email address'
+  if (payload.email.length > 40) return errMax('Email', 40)
+  if (payload.message.length < 40) return errMin('Message', 40)
+  if (payload.message.length > 800) return errMax('Message', 800)
 }
 
 async function validateToken(token, env, ip) {
