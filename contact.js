@@ -34,7 +34,11 @@ export default {
 
       // validate form fields
       const formData = await request.formData()
-      const payload = { name: formData.get('name'), email: formData.get('email'), message: formData.get('message') }
+      const payload = {
+        name: formData.get('name'),
+        email: formData.get('email'),
+        message: formData.get('message'),
+      }
       const validation = validatePayload(payload)
       if (validation != null) return generateResponse(validation, 422)
 
