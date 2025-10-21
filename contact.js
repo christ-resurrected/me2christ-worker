@@ -59,7 +59,7 @@ export default {
 
 async function forwardMessage(payload, env) {
   console.log(`forwardMessage: ${payload.name}, ${payload.email}, ${payload.message}`)
-  console.log(`env: ${ env.EMAIL_WORKER_ADDRESS } ${ env.EMAIL_FORWARD_ADDRESS }`)
+  // console.log(`env: ${ env.EMAIL_WORKER_ADDRESS } ${ env.EMAIL_FORWARD_ADDRESS }`)
   const msg = createMimeMessage()
   msg.setSender({ name: 'no-reply', addr: env.EMAIL_WORKER_ADDRESS })
   msg.setRecipient(env.EMAIL_FORWARD_ADDRESS)
