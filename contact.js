@@ -63,7 +63,7 @@ async function forwardMessage(payload, env) {
   const msg = createMimeMessage()
   msg.setSender({ name: 'no-reply', addr: env.EMAIL_WORKER_ADDRESS })
   msg.setRecipient(env.EMAIL_FORWARD_ADDRESS)
-  msg.setSubject('Message received from me2christ.com payload page')
+  msg.setSubject('Message received from me2christ.com contact page')
   msg.addMessage({
     contentType: 'text/plain',
     data: `Name: ${payload.name}\nEmail: ${payload.email}\n\n${payload.message}`
